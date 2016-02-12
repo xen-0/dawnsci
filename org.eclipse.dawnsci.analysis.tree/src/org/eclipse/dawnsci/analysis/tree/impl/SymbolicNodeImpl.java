@@ -25,8 +25,9 @@ import org.eclipse.dawnsci.analysis.api.tree.Tree;
 public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializable {
 	protected static final long serialVersionUID = -2348087598312513187L;
 
-	private Tree tree;
-	private String path;
+	final private Tree tree;
+	final private String path;
+	final private String filename;
 
 	/**
 	 * Construct a symbolic link with given object ID, file name and node path
@@ -38,6 +39,14 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 		super(oid);
 		tree = treeWithNode;
 		path = pathToNode;
+		filename = null;
+	}
+
+	public SymbolicNodeImpl(final long oid, final String externalFileName, final String pathToNode) {
+		super(oid);
+		path = pathToNode;
+		filename = externalFileName;
+		tree = null;
 	}
 
 	@Override
@@ -47,6 +56,9 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 
 	@Override
 	public Node getNode() {
+		if (filename == null) {
+			return null;
+		}
 		NodeLink l = getNodeLink();
 		return l == null ? null : l.getDestination();
 	}
@@ -72,5 +84,10 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 		String attrs = super.toString();
 		out.append(attrs);
 		return out.toString();
+	}
+
+	@Override
+	public String getFilename() {
+		return filename;
 	}
 }

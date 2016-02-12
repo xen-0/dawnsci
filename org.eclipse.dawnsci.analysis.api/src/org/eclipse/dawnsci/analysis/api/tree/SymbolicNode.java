@@ -13,7 +13,7 @@
 package org.eclipse.dawnsci.analysis.api.tree;
 
 /**
- * Symbolic node that uses a name to link to another node
+ * Symbolic node that uses a name to link to another node. Can be used for external links.
  */
 public interface SymbolicNode extends Node {
 
@@ -24,8 +24,8 @@ public interface SymbolicNode extends Node {
 	public NodeLink getNodeLink();
 
 	/**
-	 * Get node referenced by symbolic link
-	 * @return node
+	 * Get node referenced by symbolic link - is null for external links
+	 * @return node or null if external link
 	 */
 	public Node getNode();
 
@@ -35,7 +35,7 @@ public interface SymbolicNode extends Node {
 	public boolean isData();
 
 	/**
-	 * @return tree containing linked node
+	 * @return tree containing linked node or null if external link
 	 */
 	public Tree getTree();
 
@@ -43,4 +43,9 @@ public interface SymbolicNode extends Node {
 	 * @return path to linked node
 	 */
 	public String getPath();
+
+	/**
+	 * @return name of externally linked file
+	 */
+	public String getFilename();
 }
